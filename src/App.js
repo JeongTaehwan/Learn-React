@@ -1,14 +1,10 @@
 import React from 'react';
-import Hello from './hello';
-import Wrapper from './wrapper';
-import './App.css';
+import Counter from './Counter';
+
 
 function App() {
   return (
-    <Wrapper>
-      <Hello name='react' color='red' isSpecial={true}></Hello>
-      <Hello color='purple'></Hello>
-    </Wrapper>
+    <Counter></Counter>
   );
 }
 
