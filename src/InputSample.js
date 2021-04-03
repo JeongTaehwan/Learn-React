@@ -39,3 +39,6 @@ function InputSample() {
 }
 
 export default InputSample;
+
+//useState : 변하는 값을 사용할때 사용
+//useRef: DOM을 직접 선택해야 할 때 사용
