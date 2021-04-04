@@ -1,9 +1,34 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import UserList from './UserList';
 
 function App() {
+  const users = [
+    {
+      id: 1,
+      username: 'taehwan',
+      email: '1234@gmail.com'
+    },
+    {
+      id: 2,
+      username: 'tester',
+      email: '12345@gmail.com'
+    },
+    {
+      id: 3,
+      username: 'person',
+      email: '123456@gmail.com'
+    }
+  ];
+  const NextId = useRef(4);
+
+  const onCreate = () => {
+    console.log(NextId.current);
+    NextId.current += 1;
+  }
+  onCreate();
+
   return (
-    <UserList></UserList>
+    <UserList users={users}></UserList>
   )
 }
 
