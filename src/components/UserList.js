@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 function User({ user, onRemove, onToggle }) {
     const { username, email, id, active } = user;
 
-    useEffect(() => {
-        console.log('user가 설정됨');
-        console.log(user);
+    // useEffect(() => {
+    //     console.log('user가 설정됨');
+    //     console.log(user);
 
-        return () => {
-            console.log('user가 설정되는중');
-            console.log(user);
-        };
-    }, [user]);
+    //     return () => {
+    //         console.log('user가 설정되는중');
+    //         console.log(user);
+    //     };
+    // }, [user]);
     return (
         <div>
             <b
@@ -51,4 +51,3 @@ function UserList({ users, onRemove, onToggle }) {
 }
 
 export default UserList;
-
