@@ -1,76 +1,75 @@
 import React, { useRef, useState, useMemo, useCallback } from 'react';
-import CreateUser from './components/CreateUser';
 import UserList from './components/UserList';
+import CreateUser from './components/CreateUser';
 
-function countActiveUser(user) {
-  console.log('활성화된 유저 세는중..');
-  return user.filter(user => user.active === true).length;
+function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user => user.active).length;
 }
+
 function App() {
   const [inputs, setInputs] = useState({
     username: '',
-    email: '',
+    email: ''
   });
-
   const { username, email } = inputs;
-
   const onChange = useCallback(e => {
     const { name, value } = e.target;
-    setInputs({
+    setInputs(inputs => ({
       ...inputs,
       [name]: value
-    });
-  }, [inputs]);
-
+    }));
+  }, []);
   const [users, setUsers] = useState([
     {
       id: 1,
-      username: 'taehwan',
-      email: '1234@gmail.com',
-      active: true,
+      username: 'velopert',
+      email: 'public.velopert@gmail.com',
+      active: true
     },
     {
       id: 2,
       username: 'tester',
-      email: '12345@gmail.com',
-      active: false,
+      email: 'tester@example.com',
+      active: false
     },
     {
       id: 3,
-      username: 'person',
-      email: '123456@gmail.com',
-      active: false,
+      username: 'liz',
+      email: 'liz@example.com',
+      active: false
     }
   ]);
-  const NextId = useRef(4);
 
+  const nextId = useRef(4);
   const onCreate = useCallback(() => {
     const user = {
-      id: NextId.current,
+      id: nextId.current,
       username,
-      email,
+      email
     };
-    setUsers([...users, user]);
-    //setUsers([users.concat(user)]);
+    setUsers(users => users.concat(user));
+
     setInputs({
       username: '',
-      email: '',
+      email: ''
     });
-    NextId.current += 1;
-  }, [username, email, users]);
+    nextId.current += 1;
+  }, [username, email]);
 
   const onRemove = useCallback(id => {
-    setUsers(users.filter(user => user.id !== id));
-  }, [users]);
-
+    // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+    // = user.id 가 id 인 것을 제거함
+    setUsers(users => users.filter(user => user.id !== id));
+  }, []);
   const onToggle = useCallback(id => {
-    setUsers(users.map(
-      user => user.id === id
-        ? { ...user, active: !user.active }
-        : user
-    ));
-  }, [users]);
-  const count = useMemo(() => countActiveUser(users), [users]);
+    setUsers(users =>
+      users.map(user =>
+        user.id === id ? { ...user, active: !user.active } : user
+      )
+    );
+  }, []);
+  const count = useMemo(() => countActiveUsers(users), [users]);
   return (
     <>
       <CreateUser
@@ -80,9 +79,9 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
-      <div>활성 사용자 수 {count}</div>
+      <div>활성사용자 수 : {count}</div>
     </>
-  )
+  );
 }
 
 export default App;
