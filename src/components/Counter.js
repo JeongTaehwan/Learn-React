@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'INCREASE':
+            return state + 1;
+        case 'DECREASE':
+            return state - 1;
+        case 'RESET':
+            return state - state;
+        default:
+            throw new Error('Unhandled Action');
+    }
+}
 
 function Counter() {
-    const [number, setNumber] = useState(0);
 
+    const [number, dispatch] = useReducer(reducer, 0);
     const plus = () => {
-        setNumber(n => n + 1);
+        dispatch({
+            type: 'INCREASE'
+        });
     }
     const minus = () => {
-        setNumber(n => n - 1);
+        dispatch({
+            type: 'DECREASE'
+        });
     }
     const reset = () => {
-        setNumber(n => n - n);
+        dispatch({
+            type: 'RESET'
+        });
     }
     return (
         <div>
