@@ -2,11 +2,6 @@ import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
 
-// function countActiveUsers(users) {
-//   console.log('활성 사용자 수를 세는중...');
-//   return users.filter(user => user.active).length;
-// }
-
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는중...');
   return users.filter(user => user.active).length;
