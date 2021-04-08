@@ -2,11 +2,6 @@ import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
 
-// function countActiveUsers(users) {
-//   console.log('활성 사용자 수를 세는중...');
-//   return users.filter(user => user.active).length;
-// }
-
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는중...');
   return users.filter(user => user.active).length;
@@ -20,8 +15,8 @@ const initialState = { // State의 초기값을 객체로 받아옴
   users: [
     {
       id: 1,
-      username: 'velopert',
-      email: 'public.velopert@gmail.com',
+      username: 'puwan',
+      email: 'puwan@gmail.com',
       active: true
     },
     {
