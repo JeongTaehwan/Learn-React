@@ -12,7 +12,7 @@ function countActiveUsers(users) {
   return users.filter(user => user.active).length;
 }
 
-const initialState = {
+const initialState = { // State의 초기값을 객체로 받아옴
   inputs: {
     username: '',
     email: ''
@@ -39,11 +39,11 @@ const initialState = {
   ]
 };
 
-function reducer(state, action) {
+function reducer(state, action) { // state는 초기값, action은 변한 값
   switch (action.type) {
     case 'CHANGE_INPUT':
       return {
-        ...state,
+        ...state, // 불변성을 위해 사용함
         inputs: {
           ...state.inputs,
           [action.name]: action.value
@@ -51,20 +51,20 @@ function reducer(state, action) {
       };
     case 'CREATE_USER':
       return {
-        inputs: initialState.inputs,
-        users: state.users.concat(action.user)
+        inputs: initialState.inputs, // inputs안에 값을 넣어줌 (?)
+        users: state.users.concat(action.user) // 기존의 배열에 새로운 입력한 새로운 배열을 추가함
       };
     case 'TOGGLE_USER':
       return {
         ...state,
         users: state.users.map(user =>
-          user.id === action.id ? { ...user, active: !user.active } : user
+          user.id === action.id ? { ...user, active: !user.active } : user // user의 id가 변한 값의 id와 같은지 비교하고 같으면 user객체를 그대로 가지고오고, active의 값을 바꿔줌. 다르면 user를 반환
         )
       };
     case 'REMOVE_USER':
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.id)
+        users: state.users.filter(user => user.id !== action.id) // user의 아이디가 action의 id와 다를때 지움
       };
     default:
       return state;
@@ -72,8 +72,8 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const nextId = useRef(4);
+  const [state, dispatch] = useReducer(reducer, initialState); // useReducer 사용방법. state는 현재 값. dispatch는 바꿔줄 값. initialState부분에는 초기값을 지정해줌
+  const nextId = useRef(4); // id가 추가 될때 값의 초깃값을 useRef로 4로 설정
 
   const { users } = state;
   const { username, email } = state.inputs;
