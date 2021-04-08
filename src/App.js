@@ -15,8 +15,8 @@ const initialState = {
   users: [
     {
       id: 1,
-      username: 'velopert',
-      email: 'public.velopert@gmail.com',
+      username: 'puwan',
+      email: 'puwan@gmail.com',
       active: true
     },
     {
