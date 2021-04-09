@@ -1,6 +1,7 @@
 import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
+import useInputs from './components/useInputs';
 
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는중...');
@@ -8,10 +9,6 @@ function countActiveUsers(users) {
 }
 
 const initialState = { // State의 초기값을 객체로 받아옴
-  inputs: {
-    username: '',
-    email: ''
-  },
   users: [
     {
       id: 1,
@@ -36,14 +33,6 @@ const initialState = { // State의 초기값을 객체로 받아옴
 
 function reducer(state, action) { // state는 초기값, action은 변한 값
   switch (action.type) {
-    case 'CHANGE_INPUT':
-      return {
-        ...state, // 불변성을 위해 사용함
-        inputs: {
-          ...state.inputs,
-          [action.name]: action.value
-        }
-      };
     case 'CREATE_USER':
       return {
         inputs: initialState.inputs, // inputs안에 값을 넣어줌 (?)
@@ -68,19 +57,15 @@ function reducer(state, action) { // state는 초기값, action은 변한 값
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState); // useReducer 사용방법. state는 현재 값. dispatch는 바꿔줄 값. initialState부분에는 초기값을 지정해줌
+  const [Form, onChange, reset] = useInputs({
+    username: '',
+    email: '',
+
+  });
+  const { username, email } = Form;
   const nextId = useRef(4); // id가 추가 될때 값의 초깃값을 useRef로 4로 설정
 
   const { users } = state;
-  const { username, email } = state.inputs;
-
-  const onChange = useCallback(e => {
-    const { name, value } = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value
-    });
-  }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -92,7 +77,8 @@ function App() {
       }
     });
     nextId.current += 1;
-  }, [username, email]);
+    reset();
+  }, [username, email, reset]);
 
   const onToggle = useCallback(id => {
     dispatch({
