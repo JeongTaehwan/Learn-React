@@ -1,4 +1,5 @@
 import React, { useRef, useReducer, useMemo, useCallback, createContext } from 'react';
+import produce from 'immer';
 import UserList from './components/UserList';
 import CreateUser from './components/CreateUser';
 import useInputs from './components/useInputs';
@@ -34,22 +35,33 @@ const initialState = { // State의 초기값을 객체로 받아옴
 function reducer(state, action) { // state는 초기값, action은 변한 값
   switch (action.type) {
     case 'CREATE_USER':
-      return {
-        inputs: initialState.inputs, // inputs안에 값을 넣어줌 (?)
-        users: state.users.concat(action.user) // 기존의 배열에 새로운 입력한 새로운 배열을 추가함
-      };
+      return produce(state, draft => {
+        draft.users.push(action.user);
+      })
+    // return {
+    //   inputs: initialState.inputs, // inputs안에 값을 넣어줌 (?)
+    //   users: state.users.concat(action.user) // 기존의 배열에 새로운 입력한 새로운 배열을 추가함
+    // };
     case 'TOGGLE_USER':
-      return {
-        ...state,
-        users: state.users.map(user =>
-          user.id === action.id ? { ...user, active: !user.active } : user // user의 id가 변한 값의 id와 같은지 비교하고 같으면 user객체를 그대로 가지고오고, active의 값을 바꿔줌. 다르면 user를 반환
-        )
-      };
+      return produce(state, draft => {
+        const user = draft.users.find(user => user.id === action.id);
+        user.active = !user.active;
+      })
+    // return {
+    //   ...state,
+    //   users: state.users.map(user =>
+    //     user.id === action.id ? { ...user, active: !user.active } : user // user의 id가 변한 값의 id와 같은지 비교하고 같으면 user객체를 그대로 가지고오고, active의 값을 바꿔줌. 다르면 user를 반환
+    //   )
+    // };
     case 'REMOVE_USER':
-      return {
-        ...state,
-        users: state.users.filter(user => user.id !== action.id) // user의 아이디가 action의 id와 다를때 지움
-      };
+      return produce(state, draft => {
+        const index = draft.users.findIndex(user => user.id === action.id);
+        draft.users.splice(index, 1);
+      });
+    // return {
+    //   ...state,
+    //   users: state.users.filter(user => user.id !== action.id) // user의 아이디가 action의 id와 다를때 지움
+    // };
     default:
       return state;
   }
