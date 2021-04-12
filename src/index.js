@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Hello from './components/hello';
+import Counter from './components/Counter';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Hello name="Puwan" isSpecial />
+    <Counter />
   </React.StrictMode>,
   document.getElementById('root')
 );
